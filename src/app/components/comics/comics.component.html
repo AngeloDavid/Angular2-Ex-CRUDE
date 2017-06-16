@@ -1,0 +1,50 @@
+<div class="row">
+  <h1>
+    Comics
+    <small class="text-muted"></small>
+  </h1>
+</div>
+<div class="row">
+  <table class="table">
+    <thead class="thead-inverse">
+    <tr>
+      <th>#</th>
+      <th>Descripcion</th>
+      <th>Titulo</th>
+      <th>Fecha</th>
+      <th>Editorial</th>
+      <th>Precio</th>
+      <th>Sotck</th>
+      <th>Total</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr class=" align-items-center" *ngFor="let cs of Comics; let i=index">
+      <th scope="row">{{i+1}}</th>
+      <td><img [src]="cs.url" class="pokeImg" *ngIf="cs.url"><h3 *ngIf="!cs.url">Sin Foto</h3></td>
+      <td>{{cs.titulo | uppercase}} <h4 *ngIf="cs.puntuacion" ><span class="badge badge-primary"> <i class="fa fa-star" aria-hidden="true"></i>&nbsp;{{cs.puntuacion}}</span></h4></td>
+      <td>{{cs.fecha | date:'d-MMMM-y'}}</td>
+      <td>{{cs.Editorial}}</td>
+      <td class="text-right">{{cs.precio| currency:'USD':true}}</td>
+      <td class="text-center">{{cs.cantidad}}</td>
+      <td class="text-right">{{cs.total|currency:'USD':true}}</td>
+      <td>
+        <div class="btn-group-vertical">
+          <button [routerLink]="['/comic',cs.key]"  class="btn btn-outline-info"><i class="fa fa-list fa-fw" aria-hidden="true"></i>&nbsp;Detalles</button>
+          <button  type="button" (click)="eliminar(cs.key,i)" class="btn btn-outline-danger"><i class="fa fa-trash-o fa-fw" aria-hidden="true"></i>&nbsp;Eliminar</button>
+        </div>
+      </td>
+    </tr>
+    <tr class="table-success">
+      <th></th>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td><strong>Total:</strong></td>
+      <td>{{PU | currency:'USD':true}}</td>
+      <td>{{Cants}}</td>
+      <td>{{Total | currency:'USD':true}}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>

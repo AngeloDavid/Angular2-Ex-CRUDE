@@ -1,0 +1,108 @@
+<div class="row">
+  <h1 *ngIf="idOpcion !=='nuevo'">Editar  <small>{{Comic.nombre}}</small></h1>
+  <h1 *ngIf="idOpcion=='nuevo'">Nuevo</h1>
+</div>
+
+<div class="row" >
+  <div class="col-6 text-left">
+    <button type="button" [routerLink]="['/comics']" class="btn btn-outline-primary"><i class="fa fa-angle-double-left" aria-hidden="true"> Regresar</i></button>
+  </div>
+  <div class="col-6 text-right">
+    <button type="button" (click)="limpiar()" class="btn btn-outline-danger"><i class="fa fa-eraser" aria-hidden="true"> Limpiar</i></button>
+  </div>
+</div>
+<br>
+<br>
+<div class="row">
+  <div class="col-6 text-center">
+    <img [src]="Comic.url" class="pokeImgNuevo" *ngIf="Comic.url">
+    <h3 *ngIf="!Comic.url">Sin Foto</h3>
+  </div>
+  <div class="col-6">
+    <form (ngSubmit) ="guardar()" #newP="ngForm">
+      <div class="form-group row"  [ngClass]="{'has-danger': (titulo.errors?.required) && (titulo.dirty || titulo.touched)}">
+        <div class="col-4">
+          <label for="titulo_Input" class="col-form-label">Titulo</label>
+        </div>
+        <div class="col-8">
+          <input class="form-control form-control-danger" type="text" placeholder="Ingrese el titulo" id="titulo_Input" name="titulo" #titulo="ngModel"   [(ngModel)]="Comic.titulo" required>
+          <div class="form-control-feedback" *ngIf=" (titulo.dirty || titulo.touched) && titulo.errors?.required" >
+            Este campo es obligatorio
+          </div>
+        </div>
+
+      </div>
+      <div class="form-group row"  [ngClass]="{'has-danger': (fecha.errors?.required) && (fecha.dirty || fecha.touched)}">
+        <div class="col-4">
+          <label for="fecha_imput" class="col-form-label" >Fecha de Edición</label>
+        </div>
+        <div class="col-8">
+          <input class="form-control form-control-danger" type="date" id="fecha_imput" rows="3" name="fecha" #fecha="ngModel"  [(ngModel)]="Comic.fecha" required>
+          <div class="form-control-feedback" *ngIf="(fecha.dirty || fecha.touched) && fecha.errors?.required" >
+            Este campo es obligatorio
+          </div>
+        </div>
+      </div>
+      <div class="form-group row" [ngClass]="{'has-danger': (editorial.errors?.required) && (editorial.dirty || editorial.touched)}">
+        <div class="col-4">
+          <label for="Editorial_Select" class="col-form-label">Editorial</label>
+        </div>
+        <div class="col-8">
+          <input  class="form-control  form-control-danger" type="text" id="Editorial_Select" name="Editorial" #editorial="ngModel"  [(ngModel)]="Comic.Editorial" required>
+          <div class="form-control-feedback" *ngIf="(editorial.dirty || editorial.touched) && editorial.errors?.required" >
+            Este campo es obligatorio
+          </div>
+        </div>
+      </div>
+      <div class="form-group row" [ngClass]="{'has-danger': (url.errors?.url) && (url.dirty || url.touched)}">
+        <div class="col-4">
+          <label for="url" class="col-form-label">Url Imagen</label>
+        </div>
+        <div class="col-8">
+
+          <input class="form-control  form-control-danger" type="url"  id="url" name="url" #url="ngModel"  [(ngModel)]="Comic.url">
+          <div class="form-control-feedback" *ngIf=" (url.dirty || url.touched) && url.errors?.url" >
+            Formato invalido del campo
+          </div>
+        </div>
+      </div>
+      <div class="form-group row" [ngClass]="{'has-danger': (puntuacion.errors?.number) && (puntuacion.dirty || puntuacion.touched)}">
+        <div class="col-4">
+          <label for="url" class=" col-form-label">Puntuacion</label>
+        </div>
+        <div class="col-8">
+          <input class="form-control" type="number"  id="puntuacion" name="puntuacion" #puntuacion="ngModel"  [(ngModel)]="Comic.puntuacion">
+          <div class="form-control-feedback" *ngIf="(puntuacion.dirty || puntuacion.touched) && puntuacion.errors?.number " >
+            Fuera del rango permitido
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="form-group row" [ngClass]="{'has-danger': (precio.dirty || precio.touched) && (cant.errors?.required || precio.errors?.required)}">
+        <div class="col-4">
+          <label for="url" class=" col-form-label">Inventario</label>
+        </div>
+        <div class="col-8">
+        <div class="input-group"  (focusout)="CalStock()">
+          <span class="input-group-addon">Stock.</span>
+          <input #cant="ngModel"  type="text" class="form-control" aria-label="Amount (to the nearest dollar)" name="cantidad" placeholder="0" value="0" [(ngModel)]="Comic.cantidad" required>
+          <span class="input-group-addon">$</span>
+          <input #precio="ngModel"   type="text" class="form-control" aria-label="Amount (to the nearest dollar)" name="precio" placeholder="P. unitario" [(ngModel)]="Comic.precio" required>
+          <span class="input-group-addon">=</span>
+          <input #total="ngModel"  type="text" class="form-control" aria-label="Amount (to the nearest dollar)" name="total" placeholder="Total $" [(ngModel)]="Comic.total" readonly required>
+        </div>
+          <div class="form-control-feedback" *ngIf="(cant.dirty || cant.touched) && (precio.dirty || precio.touched) && (cant.errors?.required || precio.errors?.required)" >
+            Estos campos son obligatorios
+          </div>
+        </div>
+      </div>
+
+      <div class="text-right">
+        <button type="submit" class="btn btn-success"  [disabled]="!newP.valid"><i class="fa {{cssOpcion}}" aria-hidden="true"> {{txtOpcion}}</i></button>
+      </div>
+
+    </form>
+  </div>
+
+
+</div>
